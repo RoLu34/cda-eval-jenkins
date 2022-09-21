@@ -8,7 +8,7 @@ pipeline {
         stage('git'){
             steps{
                 echo 'git...'
-                git url: 'https://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@github.com/RoLu34/cda-eval-service-websocket.git', branch: 'PREPROD'
+                git url: 'https://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@github.com/RoLu34/cda-eval-service-websocket.git', branch: 'PREPROD'
             }
         }
         stage('build') {
