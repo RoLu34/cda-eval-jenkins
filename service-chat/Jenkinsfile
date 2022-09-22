@@ -3,28 +3,32 @@ pipeline {
     tools {
         nodejs 'nodejs'
     }
-
     stages {
-        stage('git'){
-            steps{
-                echo 'git...'
-                git url: 'https://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@github.com/RoLu34/cda-eval-service-chat.git', branch: 'PREPROD'
-            }
+        stage("git") {
+          steps {
+            git branch : "PREPROD", url : "https://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@github.com/RoLu34/cda-eval-service-chat.git"
+          }
         }
         stage('build') {
             steps {
                 echo 'Building...'
-                build('Service-Websocket PREPROD')
+                build('Service-Chat PREPROD')
             }
+        }
+        stage("npm install") {
+          steps {
+              echo 'npm install...'
+              sh "npm i"
+          }
         }
         stage('test') {
             steps {
                 echo 'Testing...'
-                sh 'npm test'
+                sh "npm test"
             }
         }
         stage('deploy') {
-            steps {
+          steps {
                 echo 'Deployment...'
                 sh 'git checkout main'
                 sh 'git merge PREPROD'
@@ -33,20 +37,4 @@ pipeline {
             }
         }
     }
-    // post {
-    //     always {
-    //         echo "Release finished do cleanup and send mails"
-    //         deleteDir()
-    //     }
-    //     success {
-    //         echo "Release Success"
-    //     }
-    //     failure {
-    //         echo "Release Failed"
-    //     }
-    //     cleanup {
-    //         echo "Clean up in post work space"
-    //         cleanWs()
-    //     }
-    // }
 }
